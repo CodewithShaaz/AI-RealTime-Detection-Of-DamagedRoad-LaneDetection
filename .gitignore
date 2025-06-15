@@ -5,18 +5,17 @@ __pycache__/
 *.pyd
 
 # Output and Upload folders
-/OutputImg/
-/uploads/
+/Code/OutputImg/
+/Code/uploads/
 
 # Calibration and Large Data/Model files
-# These should be managed separately if they are large.
-/camera_cal/
-/models/
-/test_images/
-/videos/
+# These should be managed separately.
+/Code/camera_cal/
+/Code/models/
+/Code/test_images/
+/Code/videos/
 
 # Virtual environment folder (e.g., venv, .venv, env)
-# If you use a virtual environment, add its name here.
 /venv/
 /.venv/
 /env/
