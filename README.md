@@ -1,4 +1,4 @@
-# 🤖 AI Self-Driving Car & Road Condition Analysis
+# 🤖 AI RealTime Detection Of DamagedRoad & LaneDetection
 
 This project is an advanced simulation of a self-driving car's perception system, using computer vision to perform real-time lane detection and identify damaged road conditions like potholes.
 
