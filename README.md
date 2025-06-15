@@ -79,19 +79,15 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ---
 
-## 📁 Project Structure
+## 🖼️ Demo Images
 
-AI-CAR-PROJECT/
-├── .git/
-├── .gitattributes         # Configures Git LFS to track large files
-├── Code/                  # Main source code directory
-│   ├── app.py             # Flask application entry point
-│   ├── camera.py          # Camera handling logic
-│   ├── lane_detector.py   # Core lane detection algorithm
-│   ├── detector.py        # Damaged road detection logic
-│   ├── static/            # CSS, JS, static images
-│   ├── templates/         # HTML files for the UI
-│   └── videos/            # Video files (tracked by LFS)
-├── images/                # Images for the README
-├── .gitignore             # Specifies files for Git to ignore
-└── README.md              # You are here!
+
+<p align="center">
+  <img src="images/1.png" width="800" alt="Sample 1"/>
+  <img src="images/2.png" width="800" alt="Sample 2"/>
+  <img src="images/3.png" width="800" alt="Sample 3"/>
+  <img src="images/4.png" width="800" alt="Sample 4"/>
+  <img src="images/5.png" width="800" alt="Sample 5"/>
+  <img src="images/6.png" width="800" alt="Sample 6"/>
+  <img src="images/7.png" width="800" alt="Sample 7"/>
+</p>
