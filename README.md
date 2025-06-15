@@ -1,30 +1,30 @@
 # 🤖 AI RealTime Detection Of DamagedRoad & LaneDetection
 
-This project is an advanced simulation of a self-driving car's perception system, using computer vision to perform real-time lane detection and identify damaged road conditions like potholes.
+This project is an advanced perception system that uses computer vision to perform real-time lane detection and identify damaged road conditions from a video feed.
 
-The application can process both pre-recorded videos and live camera streams, making it a robust proof-of-concept for autonomous driving assistance systems.
+By analyzing road imagery, the application can pinpoint potential hazards like cracks and potholes while simultaneously tracking lane boundaries, making it a powerful tool for road maintenance analysis and driver-assistance systems.
 
 ---
 
 ## 🚀 Key Features
 
-- **Real-Time Lane Detection:** Implements Hough Transform and computer vision techniques to accurately identify and track lane lines on the road.
-- **Pothole & Damaged Road Detection:** A key safety feature that can identify potential hazards on the road surface.
-- **Dual Mode Operation:**
-    - **Video File Analysis:** Process any pre-recorded video of a road to test the detection algorithms.
-    - **Live Camera Feed:** Use a webcam to perform lane and hazard detection in real-time.
-- **Interactive Web Interface:** A simple and clean UI built with Flask to upload videos and view the processed output.
-- **Optimized for Performance:** Utilizes efficient computer vision libraries like OpenCV for real-time processing capabilities.
+-   **Real-Time Lane Detection:** Implements computer vision techniques like the Hough Transform to accurately identify and track lane lines on various road types.
+-   **Damaged Road Detection:** A key safety feature that analyzes the road texture and surface to detect potential hazards like potholes and significant cracks.
+-   **Dual Mode Operation:**
+    -   **Video File Analysis:** Process any pre-recorded video of a road to test and validate the detection algorithms.
+    -   **Live Camera Feed:** Use a webcam to perform lane and hazard detection in real-time.
+-   **Interactive Web Interface:** A clean UI built with Flask to handle video uploads and display the processed output with detections overlaid.
+-   **Optimized for Performance:** Utilizes the highly efficient OpenCV library for real-time video frame processing.
 
 ---
 
 ## 🛠️ Technologies & Libraries Used
 
-- **Backend:** Python, Flask
-- **Computer Vision:** OpenCV
-- **Numerical Processing:** NumPy
-- **Version Control:** Git & Git LFS (for handling large video files)
-- **Deployment (Planned):** Render, Gunicorn
+-   **Backend:** Python, Flask
+-   **Computer Vision:** OpenCV
+-   **Numerical Processing:** NumPy
+-   **Version Control:** Git & Git LFS (for handling large video files)
+-   **Deployment (Planned):** Render, Gunicorn
 
 ---
 
@@ -34,8 +34,8 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Prerequisites
 
-- Python 3.8+ and Pip
-- Git and [Git LFS](https://git-lfs.github.com/) must be installed.
+-   Python 3.8+ and Pip
+-   Git and [Git LFS](https://git-lfs.github.com/) must be installed.
 
 ### Installation & Setup
 
@@ -80,3 +80,18 @@ Follow these instructions to get a copy of the project up and running on your lo
 ---
 
 ## 📁 Project Structure
+
+AI-CAR-PROJECT/
+├── .git/
+├── .gitattributes         # Configures Git LFS to track large files
+├── Code/                  # Main source code directory
+│   ├── app.py             # Flask application entry point
+│   ├── camera.py          # Camera handling logic
+│   ├── lane_detector.py   # Core lane detection algorithm
+│   ├── detector.py        # Damaged road detection logic
+│   ├── static/            # CSS, JS, static images
+│   ├── templates/         # HTML files for the UI
+│   └── videos/            # Video files (tracked by LFS)
+├── images/                # Images for the README
+├── .gitignore             # Specifies files for Git to ignore
+└── README.md              # You are here!
