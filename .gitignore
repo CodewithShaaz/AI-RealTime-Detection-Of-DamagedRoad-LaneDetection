@@ -1,0 +1,30 @@
+# Byte-compiled and optimized files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Output and Upload folders
+/OutputImg/
+/uploads/
+
+# Calibration and Large Data/Model files
+# These should be managed separately if they are large.
+/camera_cal/
+/models/
+/test_images/
+/videos/
+
+# Virtual environment folder (e.g., venv, .venv, env)
+# If you use a virtual environment, add its name here.
+/venv/
+/.venv/
+/env/
+
+# IDE and Editor specific files
+.idea/
+.vscode/
+
+# OS-generated files
+.DS_Store
+Thumbs.db

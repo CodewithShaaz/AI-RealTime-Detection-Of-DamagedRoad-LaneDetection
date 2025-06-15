@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload for Lane Detection</title>
+    <style>
+        body { font-family: sans-serif; background-color: #2c3e50; color: #ecf0f1; text-align: center; padding-top: 100px; }
+        .upload-box { background-color: #34495e; padding: 40px; border-radius: 10px; display: inline-block; }
+        h1 { color: #ffffff; }
+        input[type="file"] { border: 2px dashed #95a5a6; padding: 20px; border-radius: 5px; background-color: #2c3e50; cursor: pointer; }
+        button { background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        button:hover { background-color: #2980b9; }
+        a { color: #bdc3c7; display: block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="upload-box">
+        <h1>Lane Detection</h1>
+        <p>Upload a video file to begin analysis.</p>
+        <!-- IMPORTANT: The action points to the correct lane upload route -->
+        <form method="post" action="/upload/lane" enctype="multipart/form-data">
+            <input type="file" name="video" required>
+            <br>
+            <button type="submit">Upload and Process Video</button>
+        </form>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</body>
+</html>
