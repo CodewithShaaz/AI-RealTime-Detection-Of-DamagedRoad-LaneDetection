@@ -1,5 +1,5 @@
 # 🤖 AI RealTime Detection Of DamagedRoad & LaneDetection
-![Demo Video](Hackathon/Hackathon.gif)
+![Demo Video](images/Landandpotholes.gif)
 
 This project is an advanced perception system that uses computer vision to perform real-time lane detection and identify damaged road conditions from a video feed.
 
@@ -138,22 +138,6 @@ runtime_config:
 ```
 
 You may need to adjust the entrypoint and runtime settings for your cloud provider.
-
-
-## 🖼️ Demo Images
-
-
-<p align="center">
-  <img src="images/1.png" width="800" alt="Sample 1"/>
-  <img src="images/2.png" width="800" alt="Sample 2"/>
-  <img src="images/3.png" width="800" alt="Sample 3"/>
-  <img src="images/4.png" width="800" alt="Sample 4"/>
-  <img src="images/5.png" width="800" alt="Sample 5"/>
-  <img src="images/6.png" width="800" alt="Sample 6"/>
-  <img src="images/7.png" width="800" alt="Sample 7"/>
-</p>
-
----
 
 ## 🤝 Contributing
 
