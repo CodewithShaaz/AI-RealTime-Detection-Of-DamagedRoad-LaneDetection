@@ -1,36 +1,598 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>AI Car Project</title>
-        <link href="https://fonts.googleapis.com/css?family=Nunito:600,700&display=swap" rel="stylesheet">
-        <style>
-            body { font-family: 'Nunito', sans-serif; background-color: #2c3e50; color: #ecf0f1; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-            h1 { font-size: 3rem; margin-bottom: 1rem; }
-            p { font-size: 1.2rem; color: #bdc3c7; margin-bottom: 3rem; }
-            .card-container { display: flex; gap: 2rem; }
-            .card { background-color: #34495e; padding: 2rem; border-radius: 10px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; width: 300px; }
-            .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
-            .card h2 { margin-top: 0; font-size: 1.8rem; }
-            .card .btn { text-decoration: none; color: #fff; background-color: #3498db; padding: 0.8rem 1.5rem; border-radius: 50px; display: inline-block; margin-top: 1.5rem; transition: background-color 0.3s; }
-            .card:last-child .btn { background-color: #e74c3c; }
-            .card .btn:hover { background-color: #2980b9; }
-            .card:last-child .btn:hover { background-color: #c0392b; }
-        </style>
-    </head>
-    <body>
-        <h1>AI Car Project</h1>
-        <p>Real-Time Lane and Pothole Detection using Deep Learning</p>
-        <div class="card-container">
-            <div class="card">
-                <h2>Lane Detection</h2>
-                <a href="{{ url_for('lane_upload_page') }}" class="btn">Upload Video</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Car Detection System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e293b;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Header Section */
+        .header {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #475569;
+            font-weight: 500;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.125rem;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-text {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Detection Cards */
+        .detection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .detection-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .detection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .detection-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .detection-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .detection-card:last-child::before {
+            background: linear-gradient(90deg, #eab308 0%, #f97316 100%);
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .detection-card:last-child .card-badge {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: rgba(234, 179, 8, 0.2);
+            color: #ca8a04;
+        }
+
+        .card-icon {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .detection-card:last-child .card-icon {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%);
+        }
+
+        .detection-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            letter-spacing: -0.01em;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .card-specs {
+            background: rgba(241, 245, 249, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .spec-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .spec-icon {
+            color: #3b82f6;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: #ffffff;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 1.125rem 2.75rem;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .detection-card:last-child .btn {
+            background: linear-gradient(135deg, #eab308 0%, #f97316 100%);
+            box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
+        }
+
+        .detection-card:last-child .btn:hover {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        /* Footer Info */
+        .info-section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .info-text {
+            font-size: 1rem;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .detection-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detection-card {
+                padding: 2rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detection-card {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .detection-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .detection-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🚗</div>
+        </div>
+        <h1>AI Car Detection System</h1>
+        <p class="subtitle">Real-time road analysis platform using deep learning for lane and pothole detection in autonomous vehicles and road safety applications</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value">YOLO</div>
+            <div class="stat-label">Object Detection</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">Real-Time</div>
+            <div class="stat-label">Video Processing</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Detection Modules</div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Features Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Key Features</h2>
+                <p class="section-description">Computer vision and deep learning powered detection system</p>
             </div>
-            <div class="card">
-                <h2>Pothole Detection</h2>
-                <a href="{{ url_for('pothole_upload_page') }}" class="btn">Upload Video</a>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Real-Time Streaming</h3>
+                    <p class="feature-text">Video frames are processed and streamed instantly with detection overlays drawn in real-time</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">YOLO Detection</h3>
+                    <p class="feature-text">You Only Look Once (YOLO) neural network for fast and accurate pothole object detection</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛣️</div>
+                    <h3 class="feature-title">Custom Lane Pipeline</h3>
+                    <p class="feature-text">Specialized computer vision algorithms for multi-lane and curved road line detection</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📹</div>
+                    <h3 class="feature-title">Video Playback</h3>
+                    <p class="feature-text">Simple upload interface with instant video playback showing detection results with overlays</p>
+                </div>
             </div>
         </div>
-    </body>
-    </html>
-    
+
+        <!-- Detection Modules Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Detection Modules</h2>
+                <p class="section-description">Select a module to upload your video and begin AI-powered analysis</p>
+            </div>
+            <div class="detection-grid">
+                <div class="detection-card">
+                    <span class="card-badge">Computer Vision</span>
+                    <div class="card-icon">🛣️</div>
+                    <h2 class="card-title">Lane Detection</h2>
+                    <p class="card-description">Identify lane lines in video frames using custom computer vision algorithms designed for road analysis</p>
+                    
+                    <div class="card-specs">
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Multi-lane line detection</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Curved road support</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Visual lane overlays</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Real-time video streaming</span>
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('lane_upload_page') }}" class="btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        Upload Video
+                    </a>
+                </div>
+
+                <div class="detection-card">
+                    <span class="card-badge">Deep Learning</span>
+                    <div class="card-icon">⚠️</div>
+                    <h2 class="card-title">Pothole Detection</h2>
+                    <p class="card-description">Detect potholes in real-time from video feeds using YOLO deep learning object detection model</p>
+                    
+                    <div class="card-specs">
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>YOLO neural network</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Real-time detection</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Bounding box overlays</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-icon">✓</span>
+                            <span>Instant video playback</span>
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('pothole_upload_page') }}" class="btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        Upload Video
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+        <h3 class="info-title">How It Works</h3>
+        <p class="info-text">
+            <strong>Step 1:</strong> Upload a road video file through the simple upload interface. 
+            <strong>Step 2:</strong> Select your detection module (Lane Detection or Pothole Detection). 
+            <strong>Step 3:</strong> The system processes each video frame using either custom computer vision algorithms for lane detection or YOLO deep learning model for pothole detection. 
+            <strong>Step 4:</strong> View the processed video with visual overlays showing detected lanes or potholes drawn directly on the frames. 
+            Results are streamed in real-time with instant playback capability for both detection modules.
+        </p>
+    </div>
+</body>
+</html>
